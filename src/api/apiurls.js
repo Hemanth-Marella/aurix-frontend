@@ -11,4 +11,6 @@ class Appurls{
     }
 }
 
-export default new Appurls();
+const appurls = new Appurls();
+
+export default appurls;

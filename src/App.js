@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import ChatPage from './pages/chatPage';
 
