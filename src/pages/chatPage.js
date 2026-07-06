@@ -1,17 +1,36 @@
 import React, { useState } from "react";
 import "../styles/title-container.css";
-import { uploadPdf } from "../api/serverwrapper";
+import { uploadPdf, userQuestion } from "../api/serverwrapper";
 
 export default function ChatPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [file, setFile] = useState(null);
 
-  const handleAsk = () => {
-    if (question.trim() === "") return;
+  const handleAsk = async () => {
+    if (!question.trim()) return;
 
-    // Replace with your question API later
-    setAnswer(`You asked: "${question}"`);
+    setAnswer("");
+
+    try {
+      const stream = await userQuestion(question);
+
+      const reader = stream.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+
+        setAnswer((prev) => prev + chunk);
+      }
+    } catch (error) {
+      console.error(error);
+      setAnswer("Failed to get answer.");
+    }
   };
 
   const handleUpload = async () => {
@@ -63,13 +82,13 @@ export default function ChatPage() {
 
       {/* Answer */}
       <div className="answer-container">
-        {answer ? (
-          <p>{answer}</p>
-        ) : (
-          <p className="placeholder">
-            Your answer will appear here...
-          </p>
-        )}
+          {answer ? (
+              <p>{answer}</p>
+          ) : (
+              <p className="placeholder">
+                  Your answer will appear here...
+              </p>
+          )}
       </div>
 
       {/* Question */}

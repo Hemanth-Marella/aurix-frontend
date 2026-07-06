@@ -8,6 +8,9 @@ class Appurls{
     initurls(){
         // PDF ROUTER
         this.PDF_ROUTER = API_BASE_URL + 'pdf/upload';
+
+        // QUESTION ROUTER
+        this.QUESTION_ROUTER = API_BASE_URL + 'user/question';
     }
 }
 

@@ -14,3 +14,28 @@ export const doPostRequest = async (url,body) =>{
     }
     
 }
+
+
+
+export const doPostStreamRequest = async (url, body) => {
+    try {
+        console.log("POST Stream:", url, body);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body,
+        });
+
+        if (!response.ok) {
+            throw new Error("Request failed");
+        }
+
+        return response.body;
+    } catch (error) {
+        console.log("POST Stream Error:", error);
+        throw error;
+    }
+};
