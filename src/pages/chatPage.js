@@ -46,10 +46,10 @@ export default function ChatPage() {
       console.log("Server response:", result);
 
       // Change according to your API response
-      setAnswer(result.message || JSON.stringify(result));
+      alert(result.message || JSON.stringify(result));
     } catch (error) {
       console.error("Upload failed:", error);
-      setAnswer("Failed to upload PDF.");
+      alert("Failed to upload PDF.");
     }
   };
 
