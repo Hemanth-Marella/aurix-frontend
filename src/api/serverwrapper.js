@@ -10,10 +10,10 @@ export const uploadPdf = async (file) => {
 };
 
 // Upload Question
-export const userQuestion = async(query) =>{
+export const userQuestion = async(query,file_hash) =>{
     const url = AppUrls.QUESTION_ROUTER;
     return await doPostStreamRequest(
       url,
-      JSON.stringify({ query })
+      JSON.stringify({ query,file_hash })
     );
 };

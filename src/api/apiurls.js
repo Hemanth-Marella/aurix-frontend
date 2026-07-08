@@ -11,6 +11,7 @@ class Appurls{
 
         // QUESTION ROUTER
         this.QUESTION_ROUTER = API_BASE_URL + 'user/question';
+
     }
 }
 

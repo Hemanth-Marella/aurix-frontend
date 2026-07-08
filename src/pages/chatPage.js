@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "../styles/title-container.css";
-import { uploadPdf, userQuestion } from "../api/serverwrapper";
+import { uploadPdf, userQuestion} from "../api/serverwrapper";
 
 export default function ChatPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [file, setFile] = useState(null);
+  const [file_hash,setFile_hash] = useState("");
+
+  console.log("file hash value is ", file_hash);
 
   const handleAsk = async () => {
     if (!question.trim()) return;
@@ -13,7 +16,7 @@ export default function ChatPage() {
     setAnswer("");
 
     try {
-      const stream = await userQuestion(question);
+      const stream = await userQuestion(question,file_hash);
 
       const reader = stream.getReader();
       const decoder = new TextDecoder();
@@ -45,8 +48,17 @@ export default function ChatPage() {
       console.log("Uploaded file:", file);
       console.log("Server response:", result);
 
-      // Change according to your API response
-      alert(result.message || JSON.stringify(result));
+      if (result.status === "duplicate") {
+        setFile_hash(result.file_hash);
+        alert("This PDF has already been uploaded.");
+      } else if (result.status === "uploaded") {
+        setFile_hash(result.file_hash);
+        alert("Upload successful.");
+      } else {
+        alert("Unknown response.");
+      }
+      // // Change according to your API response
+      // alert(result.message || JSON.stringify(result));
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Failed to upload PDF.");
