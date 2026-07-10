@@ -81,7 +81,7 @@ export default function ChatPage() {
 
         {file && <span className="file-name">{file.name}</span>}
 
-        <button onClick={handleUpload}>
+        <button  onClick={handleUpload} className="upload-pdf">
           Upload
         </button>
       </div>
