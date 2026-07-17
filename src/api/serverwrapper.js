@@ -1,4 +1,4 @@
-import { doPostRequest,doPostStreamRequest } from "./fetchcalls";
+import { doPostRequest,doPostStreamRequest, doPostSummaryRequest } from "./fetchcalls";
 import AppUrls from "./apiurls";
 
 // UPLOAD PDF
@@ -16,4 +16,12 @@ export const userQuestion = async(query,file_hash) =>{
       url,
       JSON.stringify({ query,file_hash })
     );
+};
+
+export const summary =async(chapter_name) => {
+  const url = AppUrls.SUMMARY_ROUTER;
+  return await doPostSummaryRequest(
+    url,
+    JSON.stringify({ chapter_name })
+  );
 };

@@ -1,14 +1,32 @@
 import React, { useState } from "react";
 import "../styles/title-container.css";
-import { uploadPdf, userQuestion} from "../api/serverwrapper";
+import { uploadPdf, userQuestion,summary} from "../api/serverwrapper";
 
 export default function ChatPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [file, setFile] = useState(null);
   const [file_hash,setFile_hash] = useState("");
+  const [chapter_name,setChapter_name] = useState("");
 
-  console.log("file hash value is ", file_hash);
+  // console.log("chapter name is : ", chapter_name);
+
+
+  const handleSummary = async () => {
+    if (!file){
+      alert("please select a pdf");
+      return;
+    }
+
+    try{
+      const result = await summary(chapter_name);
+
+      setAnswer(result.summary)
+    }catch (error) {
+      console.error(error);
+      setAnswer("Failed to fetch summary.");
+    }
+  }
 
   const handleAsk = async () => {
     if (!question.trim()) return;
@@ -50,9 +68,11 @@ export default function ChatPage() {
 
       if (result.status === "duplicate") {
         setFile_hash(result.file_hash);
+        setChapter_name(result.chapter_name);
         alert("This PDF has already been uploaded.");
       } else if (result.status === "uploaded") {
         setFile_hash(result.file_hash);
+        setChapter_name(result.chapter_name);
         alert("Upload successful.");
       } else {
         alert("Unknown response.");
@@ -83,6 +103,12 @@ export default function ChatPage() {
 
         <button  onClick={handleUpload} className="upload-pdf">
           Upload
+        </button>
+      </div>
+
+      <div className="summary_button">
+        <button onClick = {handleSummary}>
+          Summary
         </button>
       </div>
 

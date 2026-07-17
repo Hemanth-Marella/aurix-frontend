@@ -12,6 +12,9 @@ class Appurls{
         // QUESTION ROUTER
         this.QUESTION_ROUTER = API_BASE_URL + 'user/question';
 
+        // SUMMARY ROUTER
+        this.SUMMARY_ROUTER = API_BASE_URL + 'summary/summaryApi';
+
     }
 }
 
